@@ -1,0 +1,42 @@
+.card{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.card-header{
+    background:#fff;
+    border-bottom:1px solid #dee2e6;
+}
+
+.progress{
+    height:25px;
+    border-radius:8px;
+}
+
+.progress-bar{
+    font-weight:600;
+}
+
+.table{
+    margin-bottom:0;
+}
+
+.table th{
+    width:220px;
+    background:#f8f9fa;
+}
+
+.table td,
+.table th{
+    vertical-align:middle;
+}
+
+.list-group-item{
+    font-size:15px;
+    padding:14px 18px;
+}
+
+.reportstatusBadge,.pdfstatusBadge{
+    padding:8px 14px;
+}

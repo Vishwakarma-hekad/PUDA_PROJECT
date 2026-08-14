@@ -1,0 +1,443 @@
+{% extends "base.html" %}
+
+{% block title %}
+Processing Status
+{% endblock %}
+
+{% block page_title %}
+Processing Status
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/processing.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     SEARCH CARD
+========================================================= -->
+
+<div class="card shadow-sm mb-3">
+
+    <div class="card-body">
+
+        <div class="row g-2">
+
+            <div class="col-md-10">
+
+                <input
+                    type="text"
+                    id="searchRefId"
+                    class="form-control"
+                    placeholder="Enter Reference ID"
+                    autocomplete="off"
+                >
+
+            </div>
+
+            <div class="col-md-2">
+
+                <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    onclick="searchRef()"
+                >
+
+                    <i class="bi bi-search"></i>
+                    Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PROCESSING STATUS CARD
+========================================================= -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        <h4 class="mb-0">
+            Processing Status
+        </h4>
+
+    </div>
+
+
+    <div class="card-body">
+
+        <!-- Hidden Ref ID
+             JavaScript uses this value for API polling -->
+        <input
+            type="hidden"
+            id="hiddenRefId"
+            value="{{ application.ref_id if application else '' }}"
+        >
+
+
+        <!-- =================================================
+             STATUS INFORMATION
+        ================================================== -->
+
+        <div class="row mb-4 g-3">
+
+
+            <!-- Reference ID -->
+
+            <div class="col-md-2">
+
+                <h6 class="text-muted">
+                    Reference ID
+                </h6>
+
+                <div
+                    class="fw-bold fst-italic text-primary"
+                >
+                    {{ application.ref_id if application else "-" }}
+                </div>
+
+            </div>
+
+
+            <!-- Report Status -->
+
+            <div class="col-md-2">
+
+                <h6 class="text-muted">
+                    Report Status
+                </h6>
+
+                <span
+                    id="reportstatusBadge"
+                    class="badge bg-info fs-6"
+                >
+                    {{ application.report_status if application else "Waiting" }}
+                </span>
+
+            </div>
+
+
+            <!-- PDF Status -->
+
+            <div class="col-md-2">
+
+                <h6 class="text-muted">
+                    PDF Status
+                </h6>
+
+                <span
+                    id="pdfstatusBadge"
+                    class="badge bg-secondary fs-6"
+                >
+                    {{ application.pdf_status if application and application.pdf_status else "-" }}
+                </span>
+
+            </div>
+
+
+            <!-- Scrutiny Status -->
+
+            <div class="col-md-2">
+
+                <h6 class="text-muted">
+                    Scrutiny Status
+                </h6>
+
+                <span
+                    id="scrutinystatusBadge"
+                    class="badge bg-secondary fs-6"
+                >
+                    {{ application.scrutiny_status if application and application.scrutiny_status else "-" }}
+                </span>
+
+            </div>
+
+
+            <!-- Overall Progress -->
+
+            <div class="col-md-4">
+
+                <h6 class="text-muted">
+                    Overall Progress
+                </h6>
+
+                <div
+                    class="progress"
+                    style="height:25px;"
+                >
+
+                    <div
+                        id="overallProgress"
+                        class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                        role="progressbar"
+                        style="width:0%;"
+                        aria-valuenow="0"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                    >
+                        0%
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             EXECUTION INFORMATION
+        ================================================== -->
+
+        <table class="table table-bordered align-middle">
+
+            <tbody>
+
+
+                <!-- Current Step -->
+
+                <tr>
+
+                    <th width="220">
+                        Current Step
+                    </th>
+
+                    <td id="currentStep">
+                        Waiting...
+                    </td>
+
+                </tr>
+
+
+                <!-- Estimated Time -->
+
+                <tr>
+
+                    <th>
+                        Estimated Time
+                    </th>
+
+                    <td id="estimatedTime">
+                        -
+                    </td>
+
+                </tr>
+
+
+                <!-- Executed Time -->
+
+                <tr>
+
+                    <th>
+                        Report Executed Time
+                    </th>
+
+                    <td id="executedTime">
+                        {{ application.report_exec_time if application and application.report_exec_time else "-" }}
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PROCESSING TIMELINE
+========================================================= -->
+
+<div class="card shadow-sm mt-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+            Processing Timeline
+        </h5>
+
+    </div>
+
+
+    <div class="card-body">
+
+        <ul
+            class="list-group"
+            id="timelineList"
+        >
+
+            <!-- Step 1 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                Drawing Submitted
+
+            </li>
+
+
+            <!-- Step 2 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                DWG Conversion
+
+            </li>
+
+
+            <!-- Step 3 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                Reading Layers
+
+            </li>
+
+
+            <!-- Step 4 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                Extracting Report Data
+
+            </li>
+
+
+            <!-- Step 5 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                Generating Report
+
+            </li>
+
+
+            <!-- Step 6 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                Generating PDF
+
+            </li>
+
+
+            <!-- Step 7 -->
+
+            <li class="list-group-item text-secondary">
+
+                <i class="bi bi-circle me-2"></i>
+
+                Completed
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SEARCH JAVASCRIPT
+========================================================= -->
+
+<script>
+
+function searchRef() {
+
+    const input =
+        document.getElementById("searchRefId");
+
+    if (!input) {
+        return;
+    }
+
+
+    const ref =
+        input.value.trim();
+
+
+    if (!ref) {
+
+        alert("Please enter Reference ID");
+
+        input.focus();
+
+        return;
+    }
+
+
+    /*
+     * Redirect to processing page
+     * with selected reference ID.
+     */
+
+    window.location.href =
+        "/processing/?ref_id=" +
+        encodeURIComponent(ref);
+
+}
+
+
+/*
+ * Press ENTER inside search box
+ */
+
+const searchInput =
+    document.getElementById("searchRefId");
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "keypress",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                searchRef();
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+
+<!-- =========================================================
+     PROCESSING JAVASCRIPT
+========================================================= -->
+
+<script src="/static/js/processing.js"></script>
+
+{% endblock %}

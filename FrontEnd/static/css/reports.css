@@ -1,0 +1,46 @@
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.card-header {
+    background: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.badge {
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+.btn-sm {
+    margin-right: 5px;
+    margin-bottom: 4px;
+}
+
+#searchReport {
+    border-radius: 8px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}

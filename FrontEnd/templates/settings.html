@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block page_title %}
+Settings
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/settings.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- Appearance -->
+
+
+<div class="card shadow-sm mb-4">
+
+<div class="card-header">
+    <h5 class="mb-0">Appearance</h5>
+</div>
+
+<div class="card-body">
+
+    <div class="form-check form-switch">
+
+        <input
+        class="form-check-input setting-toggle"
+        type="checkbox"
+        id="dark_mode"
+        {% if settings and settings.dark_mode %}checked{% endif %}>
+
+        <label class="form-check-label" for="dark_mode">
+            Enable Dark Mode
+        </label>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- Notifications -->
+
+<div class="card shadow-sm mb-4">
+
+<div class="card-header">
+    <h5 class="mb-0">Notifications</h5>
+</div>
+
+<div class="card-body">
+
+    <div class="form-check form-switch mb-3">
+
+        <input
+        class="form-check-input setting-toggle"
+        type="checkbox"
+        id="email_notification"
+        {% if settings and settings.email_notification %}checked{% endif %}>
+
+        <label class="form-check-label" for="email_notification">
+            Email Notifications
+        </label>
+
+    </div>
+
+    <div class="form-check form-switch">
+
+        <input
+            class="form-check-input setting-toggle"
+            type="checkbox"
+            id="sms_notification"
+            {% if settings and settings.sms_notification %}checked{% endif %}>
+
+        <label class="form-check-label" for="sms_notification">
+            SMS Notifications
+        </label>
+
+    </div>
+
+</div>
+
+</div>
+<div class="text-end">
+
+
+<!-- Session -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+        <h5 class="mb-0">Session Information</h5>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table">
+
+            <tr>
+                <th width="220">Current User</th>
+                <td>{{ user.username }}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+
+                <td>
+
+                    {% if user.is_active %}
+
+                    <span class="badge bg-success">
+                        Online
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge bg-danger">
+                        Offline
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Security -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+        <h5 class="mb-0">Security</h5>
+    </div>
+
+    <div class="card-body">
+
+        <a href="/profile"
+           class="btn btn-primary">
+
+            Change Password
+
+        </a>
+
+        <a href="/logout"
+           class="btn btn-warning">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- Danger Zone -->
+<form action="/settings/delete_account" method="post">
+    <div class="card border-danger">
+
+        <div class="card-header bg-danger text-white">
+
+            <h5 class="mb-0">Danger Zone</h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                Delete your account permanently.
+            </p>
+
+            <button
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal">
+
+                Delete Account
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Delete Modal -->
+
+    <div
+        class="modal fade"
+        id="deleteModal"
+        tabindex="-1">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Delete Account
+                    </h5>
+
+                    <button
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    Are you sure you want to delete your account permanently?
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <form action="/delete-account" method="post">
+
+                        <button class="btn btn-danger">
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/settings.js"></script>
+{% endblock %}

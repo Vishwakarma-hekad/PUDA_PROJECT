@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block page_title %}
+Reports
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/reports.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header">
+        <form method="get" action="/reports">
+            <div class="row align-items-center">
+
+                <div class="col-md-6">
+                    <h5 class="mb-0">Completed Reports</h5>
+                </div>
+
+                <div class="col-md-6">
+                    <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search by Reference ID or Applicant"
+                        value="{{ search or '' }}"
+                    >
+                </div>
+
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+                        <th>Reference ID</th>
+                        <th>Application No</th>
+                        <th>Applicant</th>
+                        <th>Drawing</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th width="280">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="reportTable">
+
+                    {% for report in reports %}
+
+                    <tr>
+
+                        <td>{{ report.ref_id }}</td>
+
+                        <td>{{ report.applicant_no }}</td>
+
+                        <td>{{ report.applicant_name }}</td>
+
+                        <td>{{ report.file_name }}</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td>{{ report.created_at }}</td>
+
+                        <td>
+
+                            <a href="/report/{{ report.ref_id }}"
+                               class="btn btn-info btn-sm">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+
+                            <a href="/download/{{ report.ref_id }}"
+                               class="btn btn-primary btn-sm">
+                                JSON
+                            </a>
+
+                            <a href="/download/pdf/{{ report.ref_id }}"
+                               class="btn btn-danger btn-sm">
+                                PDF
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <nav class="mt-3">
+
+                <ul class="pagination justify-content-end">
+
+                    <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                        <a class="page-link"
+                           href="/reports?page={{ page-1 }}&search={{ search or '' }}">
+                            Previous
+                        </a>
+                    </li>
+
+                    {% for p in range(1, total_pages + 1) %}
+
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link"
+                           href="/reports?page={{ p }}&search={{ search or '' }}">
+                            {{ p }}
+                        </a>
+                    </li>
+
+                    {% endfor %}
+
+                    <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                        <a class="page-link"
+                           href="/reports?page={{ page+1 }}&search={{ search or '' }}">
+                            Next
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/reports.js"></script>
+{% endblock %}

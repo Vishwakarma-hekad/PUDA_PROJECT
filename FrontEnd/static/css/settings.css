@@ -1,0 +1,41 @@
+.card{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.card-header{
+    background:#fff;
+    border-bottom:1px solid #dee2e6;
+}
+
+.card-header h5{
+    margin:0;
+    font-weight:600;
+}
+
+.table{
+    margin-bottom:0;
+}
+
+.table th{
+    width:220px;
+    background:#f8f9fa;
+}
+
+.table td,
+.table th{
+    vertical-align:middle;
+}
+
+.form-switch{
+    padding:10px 0;
+}
+
+.btn{
+    margin-right:10px;
+}
+
+.border-danger{
+    border-width:2px !important;
+}

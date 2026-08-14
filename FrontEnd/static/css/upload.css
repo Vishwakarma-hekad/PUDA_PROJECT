@@ -1,0 +1,360 @@
+/* ------------------------------
+   Global
+--------------------------------*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f4f7fc;
+    font-family:"Segoe UI",sans-serif;
+}
+
+.wrapper{
+    display:flex;
+}
+
+/* ------------------------------
+   Sidebar
+--------------------------------*/
+
+.sidebar{
+
+    width:260px;
+
+    min-height:100vh;
+
+    background:#1E3A8A;
+
+    color:white;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    overflow-y:auto;
+
+}
+
+.logo{
+
+    text-align:center;
+
+    padding:25px 10px;
+
+    border-bottom:1px solid rgba(255,255,255,.15);
+
+}
+
+.logo img{
+
+    width:90px;
+
+    margin-bottom:10px;
+
+}
+
+.logo h4{
+
+    font-weight:600;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+    padding:20px 0;
+
+}
+
+.sidebar ul li{
+
+    margin:4px 12px;
+
+}
+
+.sidebar ul li a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.sidebar ul li a:hover{
+
+    background:#3157c5;
+
+}
+
+.sidebar ul li.active a{
+
+    background:white;
+
+    color:#1E3A8A;
+
+    font-weight:600;
+
+}
+
+/* ------------------------------
+   Main
+--------------------------------*/
+
+.main{
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+    min-height:100vh;
+
+}
+
+.navbar{
+
+    height:70px;
+
+}
+
+.navbar h3{
+
+    font-weight:600;
+
+}
+
+/* ------------------------------
+   Cards
+--------------------------------*/
+
+.card{
+
+    border:none;
+
+    border-radius:14px;
+
+}
+
+.card-header{
+
+    background:white;
+
+    border-bottom:1px solid #ececec;
+
+    font-weight:600;
+
+}
+
+/* ------------------------------
+   Labels
+--------------------------------*/
+
+.form-label{
+
+    font-weight:600;
+
+    color:#555;
+
+}
+
+/* ------------------------------
+   Inputs
+--------------------------------*/
+
+.form-control,
+.form-select{
+
+    height:48px;
+
+    border-radius:8px;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#1E3A8A;
+
+    box-shadow:0 0 0 .15rem rgba(30,58,138,.2);
+
+}
+
+/* ------------------------------
+   Upload Area
+--------------------------------*/
+
+#dropArea{
+
+    border:3px dashed #3d6ef7;
+
+    border-radius:15px;
+
+    background:#f8fbff;
+
+    padding:50px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#dropArea:hover{
+
+    background:#eef4ff;
+
+    transform:scale(1.01);
+
+}
+
+#dropArea.dragover{
+
+    background:#dce9ff;
+
+    border-color:#0d6efd;
+
+}
+
+.upload-icon{
+
+    font-size:70px;
+
+    color:#0d6efd;
+
+}
+
+/* ------------------------------
+   Selected File
+--------------------------------*/
+
+#selectedFile{
+
+    color:green;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+}
+
+/* ------------------------------
+   Progress Bar
+--------------------------------*/
+
+.progress{
+
+    height:28px;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+.progress-bar{
+
+    font-weight:bold;
+
+}
+
+/* ------------------------------
+   Buttons
+--------------------------------*/
+
+.btn{
+
+    border-radius:8px;
+
+}
+
+.btn-success{
+
+    width:180px;
+
+}
+
+.btn-secondary{
+
+    width:180px;
+
+}
+
+/* ------------------------------
+   Loading Spinner
+--------------------------------*/
+
+.spinner{
+
+    display:none;
+
+}
+
+/* ------------------------------
+   Responsive
+--------------------------------*/
+
+@media(max-width:992px){
+
+.sidebar{
+
+    width:220px;
+
+}
+
+.main{
+
+    margin-left:220px;
+
+    width:calc(100% - 220px);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+
+    position:relative;
+
+    width:100%;
+
+    min-height:auto;
+
+}
+
+.main{
+
+    margin-left:0;
+
+    width:100%;
+
+}
+
+.wrapper{
+
+    display:block;
+
+}
+
+}

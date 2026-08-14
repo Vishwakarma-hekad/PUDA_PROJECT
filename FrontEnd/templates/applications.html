@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}
+Applications
+{% endblock %}
+
+{% block page_title %}
+Applications
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/applications.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="mb-0">Applications</h2>
+
+    <a href="/upload" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
+        New Application
+    </a>
+
+</div>
+
+<!-- Filters -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="get" action="/applications">
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+
+            <input
+                type="text"
+                id="search"
+                name="search"
+                class="form-control"
+                placeholder="Search by Reference ID, Applicant or File"
+                value="{{ search or '' }}">
+
+        </div>
+
+        <div class="col-md-3">
+
+            <select
+                id="status"
+                name="status"
+                class="form-select">
+
+                <option value="">All Status</option>
+
+                <option value="submitted"
+                    {% if status == "submitted" %}selected{% endif %}>
+                    Submitted
+                </option>
+
+                <option value="processing"
+                    {% if status == "processing" %}selected{% endif %}>
+                    Processing
+                </option>
+
+                <option value="completed"
+                    {% if status == "completed" %}selected{% endif %}>
+                    Completed
+                </option>
+
+                <option value="failed"
+                    {% if status == "failed" %}selected{% endif %}>
+                    Failed
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+
+        <div class="col-md-2">
+            <a href="/applications" class="btn btn-secondary">
+                Reset
+            </a>
+        </div>
+
+    </div>
+
+</form>
+
+    </div>
+
+</div>
+
+<!-- Applications Table -->
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-primary">
+
+                <tr>
+
+                    <th>Reference ID</th>
+                    <th>Applicant</th>
+                    <th>Drawing</th>
+                    <th>Report Status</th>
+                    <th>Report Time Taken</th>
+                    <th>View Report</th>
+                    <th>PDF Status</th>
+                    <th>PDF Time Taken</th>
+                    <th>View Drawing PDF</th>
+                    <th>Scrutiny Status</th>
+                    <th>Total Time Taken</th>
+
+                    <th>Date</th>
+                    <th width="220">Actions</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="applicationTable">
+
+                {% for app in applications %}
+
+                <tr>
+
+                    <td>{{ app.ref_id }}</td>
+
+                    <td>{{ app.applicant_name }}</td>
+
+                    <td>{{ app.file_name }}</td>
+
+                    <td>
+
+                        {% if app.report_status|lower == "completed" %}
+
+                        <span class="badge bg-success">Completed</span>
+
+                        {% elif app.report_status|lower == "processing" %}
+
+                        <span class="badge bg-warning text-dark">Processing</span>
+
+                        {% elif app.report_status|lower == "submitted" %}
+
+                        <span class="badge bg-info text-dark">Submitted</span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">Failed</span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ app.report_exec_time}}</td>
+                    <td>{% if app.view_report %}
+                        <a href="/applications/view-report/{{ app.ref_id }}"
+                            class="btn btn-success btn-sm"
+                            target="_blank">
+                            <i class="bi bi-file-earmark-text"></i> View
+                        </a>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ app.pdf_status}}</td>
+                    <td>{{ app.pdf_exec_time}}</td>
+                    <td>
+                        {% if app.pdf_path %}
+                        <a href="{{ app.pdf_path }}"
+                           class="btn btn-danger btn-sm"
+                           target="_blank">
+                            <i class="bi bi-file-earmark-pdf"></i> View
+                        </a>
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ app.scrutiny_status}}</td>
+                    <td>{{ app.total_time}}</td>
+                    <td>{{ app.created_at }}</td>
+
+                    <td>
+
+                        <a href="/application/{{ app.id }}"
+                           class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i>
+                        </a>
+
+                        <a href="/download/{{ app.ref_id }}"
+                           class="btn btn-primary btn-sm">
+                            JSON
+                        </a>
+
+                        <a href="/download/pdf/{{ app.ref_id }}"
+                           class="btn btn-danger btn-sm">
+                            PDF
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            <!-- Add Pagination Here -->
+            <nav class="mt-3">
+    <ul class="pagination justify-content-end">
+
+        <li class="page-item {% if page == 1 %}disabled{% endif %}">
+            <a class="page-link"
+               href="/applications?page={{ page-1 }}&search={{ search or '' }}&status={{ status or '' }}">
+                Previous
+            </a>
+        </li>
+
+        {% for p in range(1, total_pages + 1) %}
+
+        <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link"
+               href="/applications?page={{ p }}&search={{ search or '' }}&status={{ status or '' }}">
+                {{ p }}
+            </a>
+        </li>
+
+        {% endfor %}
+
+        <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+            <a class="page-link"
+               href="/applications?page={{ page+1 }}&search={{ search or '' }}&status={{ status or '' }}">
+                Next
+            </a>
+        </li>
+
+    </ul>
+</nav>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/applications.js"></script>
+{% endblock %}

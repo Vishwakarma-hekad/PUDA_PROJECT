@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}
+Upload Drawings
+{% endblock %}
+
+{% block page_title %}
+Upload Drawings
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/upload.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- Main -->
+
+<div class="container-fluid mt-4">
+
+    <form id="uploadForm">
+
+        <!-- Application Details -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+
+                <h5>Application Information</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Layout
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="layout">
+
+                            <option value="Building">Building</option>
+
+                            <option value="Openlayout">OpenLayout</option>
+
+                            <option value="Industrial">Industrial</option>
+
+                            <option value="SpecialUse">SpecialUse</option>
+
+                            <option value="Openvillas_Layout">OpenVillas</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Subtype</label>
+
+                        <input
+                            class="form-control"
+                            name="subtype">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Purpose Code</label>
+
+                        <input
+                            class="form-control"
+                            name="purposecode">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Authority</label>
+
+                        <input
+                            class="form-control"
+                            name="authority">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Location</label>
+
+                        <input
+                            class="form-control"
+                            name="location">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Sub Location</label>
+
+                        <input
+                            class="form-control"
+                            name="sub_location">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Total Plot Area</label>
+
+                        <input
+                            class="form-control"
+                            name="total_plotArea">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Use</label>
+
+                        <input
+                            class="form-control"
+                            name="use">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Sub Use</label>
+
+                        <input
+                            class="form-control"
+                            name="subuse">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Upload -->
+
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+
+                <h5>Upload DWG Drawing</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div id="dropArea">
+
+                    <i class="bi bi-cloud-arrow-up display-1 text-primary"></i>
+
+                    <h4 class="mt-3">
+
+                        Drag & Drop DWG File Here
+
+                    </h4>
+
+                    <p>or</p>
+
+                    <input
+                        type="file"
+                        id="dwgfile"
+                        name="dwgfile"
+                        accept=".dwg"
+                        hidden>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="document.getElementById('dwgfile').click()">
+
+                        Choose Drawing
+
+                    </button>
+
+                    <div
+                        id="selectedFile"
+                        class="mt-3 fw-bold text-success">
+
+                    </div>
+
+                </div>
+
+                <div class="progress mt-4">
+
+                    <div
+                        id="progressBar"
+                        class="progress-bar progress-bar-striped progress-bar-animated"
+                        style="width:0%">
+
+                        0%
+
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg">
+
+                        <i class="bi bi-upload"></i>
+
+                        Upload Drawing
+
+                    </button>
+
+                    <button
+                        type="reset"
+                        class="btn btn-secondary btn-lg">
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/upload.js"></script>
+{% endblock %}
