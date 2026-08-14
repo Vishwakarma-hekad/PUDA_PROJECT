@@ -2,7 +2,7 @@ from contextvars import ContextVar
 import logging
 from concurrent_log_handler import ConcurrentRotatingFileHandler
 import os
-from config import settings
+from Backend.config import settings
 # Module-level context variable — holds current request's logger
 _request_logger_var: ContextVar[logging.Logger] = ContextVar('request_logger', default=None)
 

@@ -1,17 +1,17 @@
 from fastapi.responses import HTMLResponse
 from fastapi import APIRouter,Request, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import Users, DWGApplication
+from Backend.models.models import Users, DWGApplication
 from sqlalchemy import select
 from starlette.templating import Jinja2Templates
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 from .authentication import get_current_user
 from typing import Optional
-from services import redis_progress
+from Backend.services import redis_progress
 
 
 router=APIRouter(prefix="/processing",tags=["processing"])
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 @router.get("/", response_class=HTMLResponse)
 async def processing(

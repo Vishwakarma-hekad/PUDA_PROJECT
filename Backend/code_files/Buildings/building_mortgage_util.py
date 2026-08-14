@@ -2,7 +2,7 @@ import ezdxf
 
 from shapely.geometry import Point,Polygon
 
-from convert_polygon_to_arc import polygon2arc
+from Backend.convert_polygon_to_arc import polygon2arc
 
 
 def get_building_mortgage_carpetarea(msp):

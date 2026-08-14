@@ -6,15 +6,15 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi import Request, Query, Depends
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 from sqlalchemy import select, func, or_
-from models.models import Users, DWGApplication
+from Backend.models.models import Users, DWGApplication
 import math
 from fastapi.templating import Jinja2Templates
 from .authentication import get_current_user
 
 router=APIRouter(prefix="/applications",tags=["applications"])
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 @router.get("/",response_class=HTMLResponse)
 async def applications(request:Request,

@@ -1,10 +1,10 @@
 import time
 
-from digit_domain import BuildingName, Floor, BldgBaseObj,IndivSubPlot
-from digit_utils_openlayout import extractMaxRoadWidthFromDict
+from Backend.digit_domain import BuildingName, Floor, BldgBaseObj,IndivSubPlot
+from Backend.digit_utils_openlayout import extractMaxRoadWidthFromDict
 
-from AnalyzeDrawingUtil import analyzeDrawingMsp
-from digit_utils_buildings import (re_round, LayerMaster, getMinWidthIrregularObjects,
+from Backend.AnalyzeDrawingUtil import analyzeDrawingMsp
+from Backend.digit_utils_buildings import (re_round, LayerMaster, getMinWidthIrregularObjects,
                                    extract_dimensions_fromtext, calc_gradient, DxfPoly, extractStairsHeightInfo)
 
 import shapely.wkt
@@ -14,9 +14,9 @@ import os
 import math
 import ezdxf
 from shapely.geometry import Polygon, LineString,Point
-from logging_config import get_current_logger
-from ProcessOpenLayout import ProcessOpenLayout
-from BuildingProcess import ProcessBuilding
+from Backend.logging_config import get_current_logger
+from Backend.ProcessOpenLayout import ProcessOpenLayout
+from Backend.BuildingProcess import ProcessBuilding
 
 import logging
 logging.getLogger("ezdxf").setLevel(logging.ERROR)
@@ -1317,7 +1317,7 @@ def process_staircase(
     # ==============================
     # STEP 2: Stair Raw Data
     # ==============================
-    stair_list = [fs.get_dict() for fs in stairCaseUnitsDicts()]
+    stair_list = [fs.get_dict() for fs in stairCaseUnitsDict]
 
     # ==============================
     # STEP 3: Prepare Base Stair Report
@@ -1626,7 +1626,7 @@ def processPlanBasedOnType(requestId, dwg_dir, dxffile_dir,inputFilename,
                            request_params: dict,status_dict,req_dttime_obj):
 
 
-    from digit_utils_buildings import LayerMaster
+    from Backend.digit_utils_buildings import LayerMaster
     layerDict = dict()
     layerTypeDict = dict()
     response = dict()

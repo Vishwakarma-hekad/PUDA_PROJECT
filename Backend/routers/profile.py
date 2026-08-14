@@ -1,13 +1,13 @@
 from fastapi.responses import HTMLResponse,RedirectResponse
 from fastapi import APIRouter,Request, Depends,HTTPException, Form
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import Users, DWGApplication
+from Backend.models.models import Users, DWGApplication
 from starlette.templating import Jinja2Templates
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 from .authentication import get_current_user,verify_password, hash_password
 
 router=APIRouter(prefix="/profile",tags=["profile"])
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 
 @router.get("/",response_class=HTMLResponse)

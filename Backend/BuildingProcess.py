@@ -1,6 +1,6 @@
-from digit_domain import BldgBaseObj,BuildingName,Floor,IndivSubPlot
-from logging_config import get_current_logger
-from digit_utils_buildings import (LayerMaster,getPurposeDesc,executeDrawingActions,checkDeviationsInDrawing,
+from Backend.digit_domain import BldgBaseObj,BuildingName,Floor,IndivSubPlot
+from Backend.logging_config import get_current_logger
+from Backend.digit_utils_buildings import (LayerMaster,getPurposeDesc,executeDrawingActions,checkDeviationsInDrawing,
                                    runCombinedBuildingUtility,get_cellar_setbacks_plinth,get_podium_setbacks,get_ghmc_setbacks,
                                    getSetBacksByMidPointsMarginLineNew,get_transfer_of_setbacks,get_area_by_bua_type_voids_accessory,
                                    get_Mortgaged_CarpetArea4Buildings,get_floor_wise_setbacks,Green_strip_width,get_accessory_septic_sewage_transformer_distances,
@@ -11,9 +11,9 @@ from digit_utils_buildings import (LayerMaster,getPurposeDesc,executeDrawingActi
                                    getROOMVentilationArea_info,get_travel_distance,DxfPoly,mapCenterLinesWithinObjectList,getPointsAsListFromString,
                                    getMinWidthByCenterLine,grepFromFile,getCompoundWallDetails,getCourtYard_details,get_AccessoryDetail_list)
 
-from digit_utils_openlayout import extractMaxRoadWidthFromDict
-from AnalyzeDrawingUtil import analyzeDrawingMsp
-from digit_rules_v1 import callrule
+from Backend.digit_utils_openlayout import extractMaxRoadWidthFromDict
+from Backend.AnalyzeDrawingUtil import analyzeDrawingMsp
+from Backend.digit_rules_v1 import callrule
 import datetime
 import time
 import ezdxf

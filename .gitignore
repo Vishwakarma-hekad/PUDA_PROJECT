@@ -10,22 +10,14 @@ __pycache__/
 .env
 
 .vscode/
-.idea/
+.idea/*
 
-logs/
-*.log
-
-Backend/DWG_files/
-*.dwg
-
-Backend/DXF_files/
-*.dxf
-Backend/DwgProcess_LogFiles/
-*.log
-
-Backend/Json_Summary_files/
-*.json
-
+Storage/DWG_files/*
+Storage/DXF_files/*
+Storage/DwgProcess_LogFiles/*
+Storage/Json_Summary_files/*
+Storage/ServerLogFiles/*
+Storage/*
 temp/
 
 .git/

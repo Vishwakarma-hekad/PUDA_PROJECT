@@ -1,6 +1,6 @@
 import os
 import subprocess
-from config import settings
+from Backend.config import settings
 def getDWGVersion(source_dir, input_file):
     filepath = os.path.abspath(os.path.join(source_dir, input_file))
 

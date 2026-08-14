@@ -1,11 +1,11 @@
 import time
-from logging_config import get_current_logger
-from digit_domain import IndivSubPlot
-from AnalyzeDrawingUtil import analyzeDrawingMsp
-from digit_utils_buildings import (LayerMaster,DxfPoly,re_round,extract_dimensions_fromtext,
+from Backend.logging_config import get_current_logger
+from Backend.digit_domain import IndivSubPlot
+from Backend.AnalyzeDrawingUtil import analyzeDrawingMsp
+from Backend.digit_utils_buildings import (LayerMaster,DxfPoly,re_round,extract_dimensions_fromtext,
                                    extract_road_width_fromtext,removeSpecialChars,getMinWidthIrregularObjects,
                                    mapCenterLinesWithinObjectList,getPointsAsListFromString,getMinWidthByCenterLine)
-from digit_utils_openlayout import (get_mortgagedSubplots4OpenLayout,checkBufferZoneWaterBodiesLocationWithPlot,
+from Backend.digit_utils_openlayout import (get_mortgagedSubplots4OpenLayout,checkBufferZoneWaterBodiesLocationWithPlot,
                                     checkMainAndInternalRoadWidthsInOpenLayout,isChildFullyWithinParentObject,
                                     isChildWithinParentObject,checkCommonLayersInOpenLayout,extractMaxRoadWidthFromDict,
                                     checkAmentiesSocialInfra_OpenLayouts,checkFacilities_OpenLayouts,getInternalRoadWidth)
@@ -14,7 +14,7 @@ import math
 import shapely
 from shapely.geometry import Polygon,Point,LineString
 from shapely.strtree import STRtree
-from digit_rules_v1 import callrule
+from Backend.digit_rules_v1 import callrule
 from datetime import datetime
 import sys
 import traceback

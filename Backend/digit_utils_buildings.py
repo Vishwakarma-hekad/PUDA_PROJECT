@@ -12,33 +12,33 @@ from shapely.geometry import Point,Polygon,LineString
 import shapely.wkt
 from timeit import default_timer as timer
 # from digit_base import printLog, LayerMaster
-from digit_base import LayerMaster
-from digit_domain import DxfPoly
-from code_files.Buildings.travel_distance import Travelled_Distance
-from code_files.Buildings.podium_setbacks import check_podium_setbacks,podium_regular_setbacks,check_redius_of_Arc
-from code_files.Buildings.floor_wise_setbacks import check_floor_wise_setbacks
-from code_files.Buildings.cellar_setbacks_util import check_cellar_setbacks,cellar_plinth_dist
-from code_files.Buildings.septic_tank_util import dist_of_sept_tank
-from code_files.Buildings.ramp_check_util import RampLENGTHandBuildingHeight
-from code_files.Buildings.building_mortgage_util import get_building_mortgage_carpetarea
-from code_files.Buildings.transfer_of_setbacks_util import transfer_setbacks
-from code_files.Buildings.new_buildings_get_accessory_voids_by_buatype_util_v2 import check_resibua_and_commbua_tot_area
-from code_files.Buildings.checkOverlappingLayers import check_For_layersOverlapping
-from code_files.Buildings.Validation_layers_v2 import CommonValidationLayers
-from code_files.Buildings.roomUtil2 import window_check
-from code_files.Buildings.CommonFloorSetbacks_v2 import CommomFloorSetbacks
-from code_files.Buildings.BalconyLengthAndWidth_util import BalconyLengthAndWidth
-from code_files.Buildings.CheckWidthANDAreaForVentilationShaft import VentilationWidthANDArea
-from code_files.Buildings.PlotLengthANDEntGateWidth import SegmentwisePlotLength_AND_EntGateWidth
-from code_files.Buildings.SegmentWiseSetabcksForBuildings import CommonFloorSetbacksOFSegmentwise
-from code_files.Buildings.WindowInRoomUtil import CheckWindowsINRoom
-from code_files.Buildings.CommonBuildingsCode_forarc import AllBuildingsData
-from code_files.Buildings.RoomVentilationInfo import RoomVentilationAreaDetail
-from code_files.Buildings.CompounWallDetails import CompoundWallDetails
-from code_files.Buildings.court_yard_Details import CourtYardDetails
-from code_files.Buildings.AccessoryListDetails import AccessoriesList
+from Backend.digit_base import LayerMaster
+from Backend.digit_domain import DxfPoly
+from Backend.code_files.Buildings.travel_distance import Travelled_Distance
+from Backend.code_files.Buildings.podium_setbacks import check_podium_setbacks,podium_regular_setbacks,check_redius_of_Arc
+from Backend.code_files.Buildings.floor_wise_setbacks import check_floor_wise_setbacks
+from Backend.code_files.Buildings.cellar_setbacks_util import check_cellar_setbacks,cellar_plinth_dist
+from Backend.code_files.Buildings.septic_tank_util import dist_of_sept_tank
+from Backend.code_files.Buildings.ramp_check_util import RampLENGTHandBuildingHeight
+from Backend.code_files.Buildings.building_mortgage_util import get_building_mortgage_carpetarea
+from Backend.code_files.Buildings.transfer_of_setbacks_util import transfer_setbacks
+from Backend.code_files.Buildings.new_buildings_get_accessory_voids_by_buatype_util_v2 import check_resibua_and_commbua_tot_area
+from Backend.code_files.Buildings.checkOverlappingLayers import check_For_layersOverlapping
+from Backend.code_files.Buildings.Validation_layers_v2 import CommonValidationLayers
+from Backend.code_files.Buildings.roomUtil2 import window_check
+from Backend.code_files.Buildings.CommonFloorSetbacks_v2 import CommomFloorSetbacks
+from Backend.code_files.Buildings.BalconyLengthAndWidth_util import BalconyLengthAndWidth
+from Backend.code_files.Buildings.CheckWidthANDAreaForVentilationShaft import VentilationWidthANDArea
+from Backend.code_files.Buildings.PlotLengthANDEntGateWidth import SegmentwisePlotLength_AND_EntGateWidth
+from Backend.code_files.Buildings.SegmentWiseSetabcksForBuildings import CommonFloorSetbacksOFSegmentwise
+from Backend.code_files.Buildings.WindowInRoomUtil import CheckWindowsINRoom
+from Backend.code_files.Buildings.CommonBuildingsCode_forarc import AllBuildingsData
+from Backend.code_files.Buildings.RoomVentilationInfo import RoomVentilationAreaDetail
+from Backend.code_files.Buildings.CompounWallDetails import CompoundWallDetails
+from Backend.code_files.Buildings.court_yard_Details import CourtYardDetails
+from Backend.code_files.Buildings.AccessoryListDetails import AccessoriesList
 
-from logging_config import get_current_logger
+from Backend.logging_config import get_current_logger
 ALLOWED_EXTENSIONS=['.dwg', '.dxf','.DWG','.DXF']
 
 #to get unquoted text from an array 

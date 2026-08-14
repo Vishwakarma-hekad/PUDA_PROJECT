@@ -3,14 +3,14 @@ from fastapi.responses import HTMLResponse
 from typing import Optional
 from sqlalchemy import select, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import Users, DWGApplication
+from Backend.models.models import Users, DWGApplication
 from .authentication import get_current_user
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 import math
 from fastapi.templating import Jinja2Templates
 
 router=APIRouter(prefix="/reports", tags=["reports"])
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 @router.get("/",response_class=HTMLResponse)
 async def reports(request:Request,

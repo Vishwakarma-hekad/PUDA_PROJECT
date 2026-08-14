@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends,Form, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import Users,DWGApplication,UserSettings
-from models.database import get_db, SessionLocal
+from Backend.models.models import Users,DWGApplication,UserSettings
+from Backend.models.database import get_db, SessionLocal
 from sqlalchemy import select
 from starlette import status
 from starlette.templating import Jinja2Templates
@@ -13,19 +13,19 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 import jwt
 
-ACCESS_TOKEN_EXPIRE_MINUTES= 1
+ACCESS_TOKEN_EXPIRE_MINUTES= 60
 SECREATE_KEY="PUDA_JWT_EXPIRY_TOKEN"
 ALGORITHM= "HS256"
 
 pwd_context=CryptContext(schemes=["bcrypt"],deprecated="auto")
 
-oauth2_scheme= OAuth2PasswordBearer(tokenUrl="login",auto_error=False)
+oauth2_scheme= OAuth2PasswordBearer(tokenUrl="/login",auto_error=False)
 
 router=APIRouter(tags=["authentication"])
 
-router.mount("/static",StaticFiles(directory="../FrontEnd/static"),name="static")
+router.mount("/static",StaticFiles(directory="FrontEnd/static"),name="static")
 
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 
 def hash_password(password:str):

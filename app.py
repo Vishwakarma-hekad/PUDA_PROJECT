@@ -1,6 +1,8 @@
 from fastapi import FastAPI
-from routers import dashboard, authentication,upload, applications, reports,processing, profile, settings
+from Backend.routers import dashboard, authentication,upload, applications, reports,processing, profile, settings
+import os
 
+os.makedirs("Storage",exist_ok=True)
 
 app=FastAPI(title="PUDA SCRUTNY APPLICATION")
 app.include_router(authentication.router)

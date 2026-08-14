@@ -1,17 +1,17 @@
 from fastapi.responses import HTMLResponse
 from fastapi import APIRouter,Request, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import Users, DWGApplication
+from Backend.models.models import Users, DWGApplication
 import math
 from sqlalchemy import select, func
 from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 
 from .authentication import get_current_user
 
 router=APIRouter(tags=["dashboard"])
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 # async def get_current_user(
 #     request: Request,

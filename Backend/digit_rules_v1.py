@@ -1,6 +1,6 @@
 from durable.lang import ruleset,post,when_all,m,engine,when_any
 
-from digit_utils_buildings import getBuildingSubTypes
+from Backend.digit_utils_buildings import getBuildingSubTypes
 
 ##SECTION#1
 ### ERROR MESSAGES BY RULE 

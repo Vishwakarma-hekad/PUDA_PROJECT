@@ -1,14 +1,14 @@
 from fastapi.responses import HTMLResponse
 from fastapi import APIRouter,Request, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.models import Users, DWGApplication, UserSettings
+from Backend.models.models import Users, DWGApplication, UserSettings
 from starlette.templating import Jinja2Templates
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 from .authentication import get_current_user
 from sqlalchemy import select
 
 router=APIRouter(prefix="/settings",tags=["settings"])
-templates= Jinja2Templates(directory="../FrontEnd/templates")
+templates= Jinja2Templates(directory="FrontEnd/templates")
 
 @router.get("/",response_class=HTMLResponse)
 async def settingsx(request:Request,

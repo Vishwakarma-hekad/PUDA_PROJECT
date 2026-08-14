@@ -2,11 +2,11 @@ from fastapi import Request, Depends, BackgroundTasks, Form, APIRouter, UploadFi
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.templating import Jinja2Templates
 from .authentication import get_current_user
-from models.models import Users, DWGApplication
-from logging_config import get_server_logger, get_request_logger, close_request_logger, set_request_logger
+from Backend.models.models import Users, DWGApplication
+from Backend.logging_config import get_server_logger, get_request_logger, close_request_logger, set_request_logger
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.database import get_db, SessionLocal
+from Backend.models.database import get_db, SessionLocal
 from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime
 import uuid
@@ -14,25 +14,27 @@ import os
 import shutil
 from starlette import status
 import tempfile
-from digit_base import LayerMaster
+from Backend.digit_base import LayerMaster
 from fastapi.concurrency import run_in_threadpool
 from concurrent.futures import ThreadPoolExecutor
-from config import settings
-from tasks.drawing_task import process_drawing
-from services.redis_progress import set_progress
+from Backend.config import settings
+from Backend.tasks.drawing_task import process_drawing
+from Backend.services.redis_progress import set_progress
 
 file_processor_pool = ThreadPoolExecutor(max_workers=4)
 
 server_logger=get_server_logger()
 
-templates=Jinja2Templates(directory="../FrontEnd/templates")
+templates=Jinja2Templates(directory="FrontEnd/templates")
 router= APIRouter(tags=["upload"])
 
 oauth2_scheme= OAuth2PasswordBearer(tokenUrl="login",auto_error=False)
 
 @router.get("/upload",response_class=HTMLResponse)
 async def upload(request:Request,current_user:Users=Depends(get_current_user)):
-
+    os.makedirs(settings.DWG_DIR, exist_ok=True)
+    os.makedirs(settings.DXF_DIR, exist_ok=True)
+    os.makedirs(settings.JSON_SUMMARY_DIR, exist_ok=True)
     return templates.TemplateResponse(request,"upload.html",{'user':current_user.username})
 
 

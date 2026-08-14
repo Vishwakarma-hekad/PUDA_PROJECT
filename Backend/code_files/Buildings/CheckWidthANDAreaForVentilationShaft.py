@@ -4,7 +4,7 @@ import numpy as np
 
 from shapely.geometry import Point,Polygon,LineString
 
-from convert_polygon_to_arc import polygon2arc
+from Backend.convert_polygon_to_arc import polygon2arc
 
 class VentilationWidthANDArea:
 

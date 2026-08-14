@@ -1,12 +1,12 @@
 import time
-from celery_worker import celery
-from config import settings
-from logging_config import get_server_logger, get_request_logger, close_request_logger, set_request_logger
-from models.models import Users, DWGApplication
-from models.database import get_db, SessionLocal
+from Backend.celery_worker import celery
+from Backend.config import settings
+from Backend.logging_config import get_server_logger, get_request_logger, close_request_logger, set_request_logger
+from Backend.models.models import Users, DWGApplication
+from Backend.models.database import get_db, SessionLocal
 from datetime import datetime
 from sqlalchemy import select
-from process_file_new import processPlanBasedOnType
+from Backend.process_file_new import processPlanBasedOnType
 import asyncio
 import json
 from timeit import default_timer as timer
@@ -14,8 +14,8 @@ from concurrent.futures import ThreadPoolExecutor
 import traceback
 import sys
 from fastapi.responses import JSONResponse
-from DWG2DXF import convertDWGUtil_orig
-from services.redis_progress import (set_progress,complete_progress,failed_progress,clear_progress)
+from Backend.DWG2DXF import convertDWGUtil_orig
+from Backend.services.redis_progress import (set_progress,complete_progress,failed_progress,clear_progress)
 import os
 
 file_processor_pool = ThreadPoolExecutor(max_workers=4)
