@@ -1,24 +1,29 @@
+.git/
+.gitignore
+
 .venv/
 venv/
 env/
+
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-.git/
-.gitignore
-
 .env
+.env.*
 
 .vscode/
 .idea/
 
-logs/
+Storage/
+temp/
+
 *.log
 
-uploads/
-temp/
-output/
+.pytest_cache/
+.coverage
+htmlcov/
 
-__MACOSX/
+.DS_Store
+Thumbs.db

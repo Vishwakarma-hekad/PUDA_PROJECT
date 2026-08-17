@@ -1,43 +1,101 @@
 services:
 
+  # ==================================================
+  # FastAPI Web Application
+  # ==================================================
   web:
     build: .
     container_name: puda_app
+
     ports:
       - "8000:8000"
+
     env_file:
       - .env
+
+    environment:
+      DISPLAY: ":99"
+      QT_QPA_PLATFORM: "xcb"
+      XDG_RUNTIME_DIR: "/tmp/runtime-root"
 
     depends_on:
       - redis
       - db
+
     restart: unless-stopped
 
+    volumes:
+      - ./Storage:/PUDA_APP/Storage
+
+
+  # ==================================================
+  # Celery Worker
+  # ==================================================
   worker:
     build: .
     container_name: puda_worker
-    command: celery -A celery_worker.celery worker --loglevel=info
+
+    command: >
+      sh -c "
+      mkdir -p /tmp/runtime-root &&
+      chmod 700 /tmp/runtime-root &&
+      rm -f /tmp/.X99-lock &&
+      Xvfb :99 -screen 0 1024x768x24 -ac &
+      sleep 3 &&
+      exec celery -A Backend.celery_worker:celery worker --pool=solo --loglevel=info
+      "
+
     env_file:
       - .env
+
+    environment:
+      DISPLAY: ":99"
+      QT_QPA_PLATFORM: "xcb"
+      XDG_RUNTIME_DIR: "/tmp/runtime-root"
+
     depends_on:
       - redis
       - db
+
     restart: unless-stopped
 
+    volumes:
+      - ./Storage:/PUDA_APP/Storage
+
+
+  # ==================================================
+  # Redis
+  # ==================================================
   redis:
     image: redis:7
     container_name: puda_redis
+
     ports:
       - "6379:6379"
+
     restart: unless-stopped
 
+
+  # ==================================================
+  # PostgreSQL
+  # ==================================================
   db:
     image: postgres:18
     container_name: puda_db
+
     environment:
       POSTGRES_DB: PUDA_DATABASE
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Ads2023!
 
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+    restart: unless-stopped
+
+
+# ==================================================
+# Volumes
+# ==================================================
 volumes:
   postgres_data:

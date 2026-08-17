@@ -1,7 +1,7 @@
 from celery import Celery
-
-celery= Celery("puda",broker="redis://localhost:6379/0",
-               backend="redis://localhost:6379/1")
+from Backend.config import settings
+celery= Celery("puda",broker=settings.CELERY_BROKER_URL,
+               backend=settings.CELERY_RESULT_BACKEND)
 
 celery.conf.imports = (
     "Backend.tasks.drawing_task",

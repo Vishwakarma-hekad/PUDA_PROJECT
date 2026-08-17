@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     SERVER_LOG_DIR:str
     DWG_PROCESS_LOG_DIR:str
     ODAFC_EXE_PATH:str
+    DATABASE_URL:str
+    REDIS_URL:str
+    CELERY_BROKER_URL:str
+    CELERY_RESULT_BACKEND:str
 
     class Config:
 
