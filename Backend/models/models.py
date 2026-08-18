@@ -1,8 +1,9 @@
+from pandas.core.interchange.dataframe_protocol import Column
 from sqlalchemy.orm import Mapped, mapped_column,relationship
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy import String, Boolean, DateTime, Integer, func, ForeignKey, Interval, Text
 from .database import Base
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 class Users(Base):
 
@@ -106,4 +107,51 @@ class UserSettings(Base):
     user = relationship(
         "Users",
         back_populates="settings"
+    )
+
+
+
+class PasswordResetOtp(Base):
+
+    __tablename__ = "password_reset_otp"
+
+    id: Mapped[int] = mapped_column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True
+    )
+
+    email: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+        index=True
+    )
+
+    otp: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
+
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False
+    )
+
+    is_verified: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=False
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc)
     )

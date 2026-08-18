@@ -1,6 +1,4 @@
 from http.client import HTTPException
-
-from celery.utils.text import indent
 from fastapi import APIRouter,Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi import Request, Query, Depends
@@ -16,46 +14,47 @@ from .authentication import get_current_user
 router=APIRouter(prefix="/applications",tags=["applications"])
 templates= Jinja2Templates(directory="FrontEnd/templates")
 
-@router.get("/",response_class=HTMLResponse)
-async def applications(request:Request,
-                       search:Optional[str]=Query(None),
-                       status:Optional[str]=Query(None),
-                       db:AsyncSession=Depends(get_db),
-                       page:int=Query(1,ge=1)):
-
-    per_page = 10
-
-    query=select(DWGApplication)
-
-    if search:
-
-        query= query.where(or_(
-            DWGApplication.ref_id.ilike(f"%{search}%"),
-            DWGApplication.applicant_name.ilike(f"%{search}%"),
-            DWGApplication.file_name.ilike(f"%{search}%")
-        ))
-
-    if status:
-
-        query= query.where(DWGApplication.status== status.lower())
-
-
-    count_query= query.with_only_columns(func.count(DWGApplication.application_id)).order_by(None)
-
-    total_records = await db.scalar(count_query)
-
-    total_pages = math.ceil(total_records / per_page) if total_records else 1
-
-    query=  (query.order_by(DWGApplication.created_at.desc()).offset((page-1)*per_page).limit(per_page))
-
-    result= await db.execute(query)
-
-    applications= result.scalars().all()
-
-    return templates.TemplateResponse(request,"applications.html",{"applications":applications,
-                                                                   "search":search,"status":status,
-                                                                   "page":page,"total_pages":total_pages,
-                                                                   "total_records":total_records})
+# @router.get("/",response_class=HTMLResponse)
+# async def applications(request:Request,
+#                        search:Optional[str]=Query(None),
+#                        status:Optional[str]=Query(None),
+#                        db:AsyncSession=Depends(get_db),
+#                        page:int=Query(1,ge=1),
+#                        current_user:Users=Depends(get_current_user)):
+#
+#     per_page = 10
+#
+#     query=select(DWGApplication).where(DWGApplication.user_id==current_user.id)
+#
+#     if search:
+#
+#         query= query.where(or_(
+#             DWGApplication.ref_id.ilike(f"%{search}%"),
+#             DWGApplication.applicant_name.ilike(f"%{search}%"),
+#             DWGApplication.file_name.ilike(f"%{search}%")
+#         ))
+#
+#     if status:
+#
+#         query= query.where(DWGApplication.report_status== status.lower())
+#
+#
+#     count_query= query.with_only_columns(func.count(DWGApplication.application_id)).order_by(None)
+#
+#     total_records = await db.scalar(count_query)
+#
+#     total_pages = math.ceil(total_records / per_page) if total_records else 1
+#
+#     query=  (query.order_by(DWGApplication.created_at.desc()).offset((page-1)*per_page).limit(per_page))
+#
+#     result= await db.execute(query)
+#
+#     applications= result.scalars().all()
+#
+#     return templates.TemplateResponse(request,"applications.html",{"applications":applications,
+#                                                                    "search":search,"status":status,
+#                                                                    "page":page,"total_pages":total_pages,
+#                                                                    "total_records":total_records})
 
 # @router.get("/view-report/{ref_id}",response_class=HTMLResponse)
 # async def get_report_data(request:Request,ref_id:str,
@@ -79,6 +78,125 @@ async def applications(request:Request,
 #         "ref_id": ref_id
 #     }
 # )
+
+@router.get("/", response_class=HTMLResponse)
+async def applications(
+    request: Request,
+    search: Optional[str] = Query(None),
+    status: Optional[str] = Query(None),
+    db: AsyncSession = Depends(get_db),
+    page: int = Query(1, ge=1),
+    current_user: Users = Depends(get_current_user)
+):
+
+    per_page = 10
+
+    # -----------------------------------
+    # Current user's applications only
+    # -----------------------------------
+
+    query = select(DWGApplication).where(
+        DWGApplication.user_id == current_user.id
+    )
+
+
+    # -----------------------------------
+    # Search
+    # -----------------------------------
+
+    if search and search.strip():
+
+        search = search.strip()
+
+        query = query.where(
+            or_(
+                DWGApplication.ref_id.ilike(f"%{search}%"),
+                DWGApplication.applicant_name.ilike(f"%{search}%"),
+                DWGApplication.file_name.ilike(f"%{search}%")
+            )
+        )
+
+
+    # -----------------------------------
+    # Status filter
+    # -----------------------------------
+
+    if status and status.strip():
+
+        status = status.strip().lower()
+
+        query = query.where(
+            DWGApplication.report_status == status
+        )
+
+
+    # -----------------------------------
+    # Count records
+    # -----------------------------------
+
+    count_query = (
+        query
+        .with_only_columns(
+            func.count(DWGApplication.application_id)
+        )
+        .order_by(None)
+    )
+
+    total_records = await db.scalar(count_query)
+
+    total_records = total_records or 0
+
+
+    # -----------------------------------
+    # Total pages
+    # -----------------------------------
+
+    total_pages = (
+        math.ceil(total_records / per_page)
+        if total_records
+        else 1
+    )
+
+
+    # -----------------------------------
+    # Pagination
+    # -----------------------------------
+
+    offset = (page - 1) * per_page
+
+    query = (
+        query
+        .order_by(DWGApplication.created_at.desc())
+        .offset(offset)
+        .limit(per_page)
+    )
+
+
+    # -----------------------------------
+    # Execute
+    # -----------------------------------
+
+    result = await db.execute(query)
+
+    applications = result.scalars().all()
+
+
+    # -----------------------------------
+    # Template
+    # -----------------------------------
+
+    return templates.TemplateResponse(
+        request,
+        "applications.html",
+        {
+            "applications": applications,
+            "search": search,
+            "status": status,
+            "page": page,
+            "total_pages": total_pages,
+            "total_records": total_records,
+        }
+    )
 
 @router.get("/json-report/{ref_id}")
 async def view_report_json(

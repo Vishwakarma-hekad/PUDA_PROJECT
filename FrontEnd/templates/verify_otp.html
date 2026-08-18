@@ -1,0 +1,355 @@
+{% extends "base_authentication.html" %}
+
+
+{% block title %}
+Verify OTP | BP Connect
+{% endblock %}
+
+
+{% block content %}
+
+<div class="auth-card">
+
+    <div class="auth-body">
+
+        <!-- Header -->
+
+        <div class="text-center mb-4">
+
+            <img
+                src="{{ url_for('static', path='images/logo.png') }}"
+                alt="BP Connect"
+                class="auth-logo"
+            >
+
+            <h3 class="auth-title mb-2">
+                Verify OTP
+            </h3>
+
+            <p class="auth-subtitle mb-0">
+                Enter the 6-digit OTP sent to your
+                registered email address.
+            </p>
+
+        </div>
+
+
+        <!-- Message -->
+
+        <div id="message"></div>
+
+
+        <!-- OTP Form -->
+
+        <form id="otpForm">
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Enter OTP
+                </label>
+
+
+                <!-- 6 OTP Boxes -->
+
+                <div class="otp-container">
+
+                    <input
+                        type="text"
+                        class="otp-box"
+                        maxlength="1"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        autofocus
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-box"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-box"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-box"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-box"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-box"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                </div>
+
+
+                <!-- Hidden complete OTP -->
+
+                <input
+                    type="hidden"
+                    id="otp"
+                    name="otp"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Verify Button -->
+
+            <button
+                type="submit"
+                class="btn btn-auth w-100"
+                id="verifyButton"
+            >
+
+                <i class="bi bi-shield-check me-2"></i>
+
+                Verify OTP
+
+            </button>
+
+        </form>
+
+
+        <!-- Change Email -->
+
+        <div class="auth-footer">
+
+            <a
+                href="/forgot-password"
+                class="auth-link"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Change Email
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script
+    src="{{ url_for('static', path='js/verify_otp.js') }}"
+></script>
+
+
+<script>
+
+/* Get all OTP boxes */
+
+const otpBoxes =
+    document.querySelectorAll(".otp-box");
+
+
+const hiddenOtp =
+    document.getElementById("otp");
+
+
+/* Update hidden OTP */
+
+function updateOTP() {
+
+    let otp = "";
+
+    otpBoxes.forEach(function(box) {
+
+        otp += box.value;
+
+    });
+
+    hiddenOtp.value = otp;
+}
+
+
+/* Handle OTP boxes */
+
+otpBoxes.forEach(function(box, index) {
+
+
+    /*
+     * When user types a number
+     */
+
+    box.addEventListener("input", function() {
+
+        /*
+         * Allow numbers only
+         */
+
+        this.value =
+            this.value.replace(/\D/g, "");
+
+
+        /*
+         * Move to next box
+         */
+
+        if (
+            this.value &&
+            index < otpBoxes.length - 1
+        ) {
+
+            otpBoxes[index + 1].focus();
+
+        }
+
+
+        updateOTP();
+
+    });
+
+
+    /*
+     * Handle keyboard
+     */
+
+    box.addEventListener("keydown", function(event) {
+
+
+        /*
+         * Backspace
+         */
+
+        if (
+            event.key === "Backspace" &&
+            !this.value &&
+            index > 0
+        ) {
+
+            otpBoxes[index - 1].focus();
+
+        }
+
+
+        /*
+         * Arrow Left
+         */
+
+        if (
+            event.key === "ArrowLeft" &&
+            index > 0
+        ) {
+
+            otpBoxes[index - 1].focus();
+
+        }
+
+
+        /*
+         * Arrow Right
+         */
+
+        if (
+            event.key === "ArrowRight" &&
+            index < otpBoxes.length - 1
+        ) {
+
+            otpBoxes[index + 1].focus();
+
+        }
+
+    });
+
+
+    /*
+     * Paste OTP
+     */
+
+    box.addEventListener("paste", function(event) {
+
+        event.preventDefault();
+
+
+        const pastedOTP =
+            event.clipboardData
+                .getData("text")
+                .replace(/\D/g, "")
+                .slice(0, 6);
+
+
+        /*
+         * Put each digit
+         * into each box
+         */
+
+        pastedOTP
+            .split("")
+            .forEach(function(digit, i) {
+
+                if (otpBoxes[i]) {
+
+                    otpBoxes[i].value = digit;
+
+                }
+
+            });
+
+
+        updateOTP();
+
+
+        /*
+         * Focus appropriate box
+         */
+
+        if (pastedOTP.length > 0) {
+
+            const focusIndex =
+                Math.min(
+                    pastedOTP.length,
+                    otpBoxes.length - 1
+                );
+
+            otpBoxes[focusIndex].focus();
+
+        }
+
+    });
+
+});
+
+
+/*
+ * Before form submit,
+ * make sure hidden OTP is updated.
+ */
+
+document
+    .getElementById("otpForm")
+    .addEventListener("submit", function() {
+
+        updateOTP();
+
+    });
+
+</script>
+
+{% endblock %}

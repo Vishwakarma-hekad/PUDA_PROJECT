@@ -17,6 +17,13 @@ class Settings(BaseSettings):
     CELERY_BROKER_URL:str
     CELERY_RESULT_BACKEND:str
 
+    MAIL_HOST: str
+    MAIL_PORT: int = 587
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_FROM: str
+    MAIL_FROM_NAME: str = "PUDA"
+
     class Config:
 
         env_file= ".env"

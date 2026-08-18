@@ -11,83 +11,99 @@
     <title>Drawing Scrutiny Report</title>
 
     <!-- Bootstrap -->
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-          rel="stylesheet">
-
-    <!-- Your CSS -->
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', path='css/pdf_report.css') }}">
+    <!-- Report CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/pdf_report.css') }}"
+    >
 
 </head>
+
 
 <body>
 
 <div class="container-fluid p-4">
 
-    <!-- ============================= -->
-    <!-- HEADER -->
-    <!-- ============================= -->
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- ================================================= -->
+    <!-- REPORT HEADER -->
+    <!-- ================================================= -->
 
-        <div>
+    <div class="report-header">
 
-            <h2 class="page-title">
+        <div class="report-heading">
 
+            <div class="brand-name">
+                BP CONNECT
+            </div>
+
+            <h1 class="page-title">
                 Drawing Scrutiny Report
+            </h1>
 
-            </h2>
+            <div class="reference-id">
 
-            <small class="text-muted">
+                Reference ID:
 
-                Reference ID :
-                <b>{{ ref_id }}</b>
+                <strong>
+                    {{ ref_id }}
+                </strong>
 
-            </small>
+            </div>
 
         </div>
 
-        <div>
 
-            <button class="btn btn-primary"
-                    onclick="reloadReport()">
+        <!-- ACTION BUTTONS -->
+
+        <div class="report-actions">
+
+            <button
+                class="btn btn-report-primary"
+                onclick="reloadReport()">
 
                 <i class="bi bi-arrow-clockwise"></i>
-
                 Reload
 
             </button>
 
-            <button class="btn btn-success"
-                    onclick="downloadExcel()">
+
+            <button
+                class="btn btn-report"
+                onclick="downloadExcel()">
 
                 <i class="bi bi-file-earmark-excel"></i>
-
                 Excel
 
             </button>
 
-            <button class="btn btn-danger"
-                    onclick="downloadPDF()">
+
+            <button
+                class="btn btn-report"
+                onclick="downloadPDF()">
 
                 <i class="bi bi-file-earmark-pdf"></i>
-
                 PDF
 
             </button>
 
-            <button class="btn btn-secondary"
-                    onclick="printReport()">
+
+            <button
+                class="btn btn-report"
+                onclick="printReport()">
 
                 <i class="bi bi-printer"></i>
-
                 Print
 
             </button>
@@ -97,53 +113,65 @@
     </div>
 
 
-    <!-- ============================= -->
-    <!-- SEARCH -->
-    <!-- ============================= -->
 
-    <div class="row mb-3">
+    <!-- ================================================= -->
+    <!-- SEARCH / REPORT TOOLS -->
+    <!-- ================================================= -->
 
-        <div class="col-md-6">
+    <div class="report-toolbar">
+
+        <div class="search-wrapper">
+
+            <i class="bi bi-search"></i>
 
             <input
-                    type="text"
-                    id="searchText"
-                    class="form-control"
-                    placeholder="Search report section...">
+                type="text"
+                id="searchText"
+                class="form-control"
+                placeholder="Search report section..."
+            >
 
         </div>
 
-        <div class="col-md-6 text-end">
 
-            <button class="btn btn-outline-primary"
+        <div class="toolbar-buttons">
 
-                    onclick="expandAllSections()">
+            <button
+                class="btn btn-outline-report"
+                onclick="expandAllSections()">
 
+                <i class="bi bi-arrows-expand"></i>
                 Expand All
 
             </button>
 
-            <button class="btn btn-outline-secondary"
 
-                    onclick="collapseAllSections()">
+            <button
+                class="btn btn-outline-report"
+                onclick="collapseAllSections()">
 
+                <i class="bi bi-arrows-collapse"></i>
                 Collapse All
 
             </button>
 
-            <button class="btn btn-outline-success"
 
-                    onclick="copyJson()">
+            <button
+                class="btn btn-outline-report"
+                onclick="copyJson()">
 
+                <i class="bi bi-clipboard"></i>
                 Copy JSON
 
             </button>
 
-            <button class="btn btn-outline-dark"
 
-                    onclick="downloadJson()">
+            <button
+                class="btn btn-outline-report"
+                onclick="downloadJson()">
 
-                Download JSON
+                <i class="bi bi-download"></i>
+                JSON
 
             </button>
 
@@ -152,201 +180,398 @@
     </div>
 
 
-    <!-- ============================= -->
-    <!-- LOADER -->
-    <!-- ============================= -->
+
+    <!-- ================================================= -->
+    <!-- LOADING -->
+    <!-- ================================================= -->
 
     <div id="loading">
 
         <div class="loader"></div>
 
-        <div class="mt-3">
-
+        <div class="loading-text">
             Loading Report...
-
         </div>
 
     </div>
 
 
-    <!-- ============================= -->
-<!-- REPORT -->
-<!-- ============================= -->
 
-<div id="reportContent">
+    <!-- ================================================= -->
+    <!-- REPORT CONTENT -->
+    <!-- ================================================= -->
 
-    <!-- REQUEST SUMMARY -->
+    <div id="reportContent">
 
-    <div class="card shadow mb-4">
 
-        <div class="card-header bg-primary text-white">
+        <!-- ================================================= -->
+        <!-- REQUEST SUMMARY -->
+        <!-- ================================================= -->
 
-            <h5 class="mb-0">REQUEST SUMMARY</h5>
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        REQUEST SUMMARY
+                    </h5>
+
+                    <span>
+                        Application request information
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="requestSummaryTable"></div>
+
+            </div>
 
         </div>
 
-        <div class="card-body">
 
-            <div id="requestSummaryTable"></div>
+
+        <!-- ================================================= -->
+        <!-- PROJECT SUMMARY -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        PROJECT SUMMARY
+                    </h5>
+
+                    <span>
+                        Project and development information
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="projectSummaryTable"></div>
+
+            </div>
 
         </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- PROPOSED WORK -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        PROPOSED WORK DIMENSIONS
+                    </h5>
+
+                    <span>
+                        Proposed construction dimensions
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="proposedWorkTable"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- PARKING -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        PARKING SUMMARY
+                    </h5>
+
+                    <span>
+                        Parking and circulation details
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="parkingSummaryTable"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- ROOM INFORMATION -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        ROOM INFORMATION
+                    </h5>
+
+                    <span>
+                        Room and space details
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="roomInformationTable"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- NET BUILT UP AREA -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        NET BUILT UP AREA DETAILS
+                    </h5>
+
+                    <span>
+                        Built-up area calculations
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="netBuiltupAreaTable"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- ROOM VENTILATION -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        ROOM VENTILATION INFORMATION
+                    </h5>
+
+                    <span>
+                        Room ventilation compliance details
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="roomventiInfo"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- LIFT / STAIRCASE -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        LIFT TO STAIRCASE INFORMATION
+                    </h5>
+
+                    <span>
+                        Lift and staircase details
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="LifttoStairInfo"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- BUILDING TO BUILDING -->
+        <!-- ================================================= -->
+
+        <div class="report-card">
+
+            <div class="report-section-header">
+
+                <div class="section-indicator"></div>
+
+                <div>
+
+                    <h5>
+                        BUILDING TO BUILDING INFORMATION
+                    </h5>
+
+                    <span>
+                        Building separation and related details
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card-body">
+
+                <div id="BuildingtoBuildingInfo"></div>
+
+            </div>
+
+        </div>
+
 
     </div>
 
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-success text-white">
-
-        <h5 class="mb-0">
-            PROJECT SUMMARY
-        </h5>
-        <div class="card-body">
-
-        <div id="projectSummaryTable"></div>
-
-        </div>
-    </div>
-
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-warning">
-
-            <h5 class="mb-0">PROPOSED WORK DIMENSIONS</h5>
-
-        </div>
-
-        <div class="card-body">
-
-            <div id="proposedWorkTable"></div>
-
-        </div>
-
-    </div>
-
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-dark text-white">
-
-            <h5 class="mb-0">PARKING SUMMARY</h5>
-
-        </div>
-
-        <div class="card-body">
-
-            <div id="parkingSummaryTable"></div>
-
-        </div>
-
-    </div>
 
 
-    <div class="card shadow mb-4">
+    <!-- ================================================= -->
+    <!-- REFERENCE ID -->
+    <!-- ================================================= -->
 
-        <div class="card-header bg-primary text-white">
+    <input
+        type="hidden"
+        id="refId"
+        value="{{ ref_id }}"
+    >
 
-            <h5 class="mb-0">ROOM INFORMATION</h5>
-
-        </div>
-
-        <div class="card-body">
-
-            <div id="roomInformationTable"></div>
-
-        </div>
-
-    </div>
-
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-success text-white">
-
-            <h5 class="mb-0">NET BUILT UP AREA DETAILS</h5>
-        </div>
-
-        <div class="card-body">
-
-            <div id="netBuiltupAreaTable"></div>
-
-        </div>
-
-    </div>
-
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-success text-white">
-
-            <h5 class="mb-0">ROOM VENTILATION INFO</h5>
-        </div>
-
-        <div class="card-body">
-
-            <div id="roomventiInfo"></div>
-
-        </div>
-
-    </div>
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-success text-white">
-
-            <h5 class="mb-0">LIFT TO STAIRCASE INFORMATION </h5>
-        </div>
-
-        <div class="card-body">
-
-            <div id="LifttoStairInfo"></div>
-
-        </div>
-
-    </div>
-
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-success text-white">
-
-            <h5 class="mb-0">BUILDING TO BUILDING INFORMATION </h5>
-        </div>
-
-        <div class="card-body">
-
-            <div id="BuildingtoBuildingInfo"></div>
-
-        </div>
-
-    </div>
 
 </div>
 
 
-<!-- Hidden Reference -->
 
-<input
+<!-- ================================================= -->
+<!-- BOOTSTRAP -->
+<!-- ================================================= -->
 
-        type="hidden"
-
-        id="refId"
-
-        value="{{ ref_id }}">
-
-
-<!-- Bootstrap -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 
 
-<!-- Excel -->
+<!-- ================================================= -->
+<!-- EXCEL -->
+<!-- ================================================= -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+</script>
 
 
+<!-- ================================================= -->
 <!-- PDF -->
+<!-- ================================================= -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+</script>
 
 
-<!-- Report JS -->
+<!-- ================================================= -->
+<!-- REPORT JS -->
+<!-- ================================================= -->
 
-<script src="{{ url_for('static', path='js/pdf_report.js') }}"></script>
+<script
+    src="{{ url_for('static', path='js/pdf_report.js') }}">
+</script>
+
 
 </body>
 

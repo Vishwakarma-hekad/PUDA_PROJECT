@@ -39,3 +39,17 @@ class DWGApplication(BaseModel):
     status:str
 
     is_active:bool
+
+class PasswordResetOTP(BaseModel):
+
+    id: int
+
+    email: EmailStr
+
+    otp_hash: str
+
+    expires_at: str
+
+    attempts: str
+
+    is_verified: bool

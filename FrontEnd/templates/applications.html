@@ -33,68 +33,93 @@ Applications
 
         <form method="get" action="/applications">
 
-    <div class="row g-3">
+            <div class="row g-3">
 
-        <div class="col-md-4">
+                <div class="col-md-4">
 
-            <input
-                type="text"
-                id="search"
-                name="search"
-                class="form-control"
-                placeholder="Search by Reference ID, Applicant or File"
-                value="{{ search or '' }}">
+                    <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search by Reference ID, Applicant or File"
+                        value="{{ search or '' }}">
 
-        </div>
+                </div>
 
-        <div class="col-md-3">
+                <div class="col-md-3">
 
-            <select
-                id="status"
-                name="status"
-                class="form-select">
+                    <select
+    id="status"
+    name="status"
+    class="form-select">
 
-                <option value="">All Status</option>
+    <option value="">
+        All Status
+    </option>
 
-                <option value="submitted"
-                    {% if status == "submitted" %}selected{% endif %}>
-                    Submitted
-                </option>
+    {% if status == "submitted" %}
+        <option value="submitted" selected>
+            Submitted
+        </option>
+    {% else %}
+        <option value="submitted">
+            Submitted
+        </option>
+    {% endif %}
 
-                <option value="processing"
-                    {% if status == "processing" %}selected{% endif %}>
-                    Processing
-                </option>
 
-                <option value="completed"
-                    {% if status == "completed" %}selected{% endif %}>
-                    Completed
-                </option>
+    {% if status == "processing" %}
+        <option value="processing" selected>
+            Processing
+        </option>
+    {% else %}
+        <option value="processing">
+            Processing
+        </option>
+    {% endif %}
 
-                <option value="failed"
-                    {% if status == "failed" %}selected{% endif %}>
-                    Failed
-                </option>
 
-            </select>
+    {% if status == "completed" %}
+        <option value="completed" selected>
+            Completed
+        </option>
+    {% else %}
+        <option value="completed">
+            Completed
+        </option>
+    {% endif %}
 
-        </div>
 
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">
-                Search
-            </button>
-        </div>
+    {% if status == "failed" %}
+        <option value="failed" selected>
+            Failed
+        </option>
+    {% else %}
+        <option value="failed">
+            Failed
+        </option>
+    {% endif %}
 
-        <div class="col-md-2">
-            <a href="/applications" class="btn btn-secondary">
-                Reset
-            </a>
-        </div>
+</select>
 
-    </div>
+                </div>
 
-</form>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="/applications" class="btn btn-secondary">
+                        Reset
+                    </a>
+                </div>
+
+            </div>
+
+        </form>
 
     </div>
 
@@ -127,7 +152,7 @@ Applications
                     <th>Total Time Taken</th>
 
                     <th>Date</th>
-                    <th width="220">Actions</th>
+<!--                    <th width="220">Actions</th>-->
 
                 </tr>
 
@@ -195,24 +220,24 @@ Applications
                     <td>{{ app.total_time}}</td>
                     <td>{{ app.created_at }}</td>
 
-                    <td>
+<!--                    <td>-->
 
-                        <a href="/application/{{ app.id }}"
-                           class="btn btn-info btn-sm">
-                            <i class="bi bi-eye"></i>
-                        </a>
+<!--                        <a href="/application/{{ app.id }}"-->
+<!--                           class="btn btn-info btn-sm">-->
+<!--                            <i class="bi bi-eye"></i>-->
+<!--                        </a>-->
 
-                        <a href="/download/{{ app.ref_id }}"
-                           class="btn btn-primary btn-sm">
-                            JSON
-                        </a>
+<!--                        <a href="/download/{{ app.ref_id }}"-->
+<!--                           class="btn btn-primary btn-sm">-->
+<!--                            JSON-->
+<!--                        </a>-->
 
-                        <a href="/download/pdf/{{ app.ref_id }}"
-                           class="btn btn-danger btn-sm">
-                            PDF
-                        </a>
+<!--                        <a href="/download/pdf/{{ app.ref_id }}"-->
+<!--                           class="btn btn-danger btn-sm">-->
+<!--                            PDF-->
+<!--                        </a>-->
 
-                    </td>
+<!--                    </td>-->
 
                 </tr>
 

@@ -21,7 +21,7 @@ async def reports(request:Request,
 
     per_page= 10
 
-    query= select(DWGApplication).where(func.lower(DWGApplication.report_status)=="completed")
+    query= select(DWGApplication).where(func.lower(DWGApplication.report_status)=="completed",DWGApplication.user_id == current_user.id)
 
     if search:
 

@@ -1,0 +1,73 @@
+body {
+
+    min-height: 100vh;
+
+    background: #f4f6f9;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.otp-card {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.10);
+}
+
+.otp-header {
+
+    text-align: center;
+
+    padding: 30px 30px 10px;
+}
+
+.otp-header h3 {
+
+    font-weight: 600;
+}
+
+.otp-header p {
+
+    color: #6c757d;
+
+    font-size: 14px;
+}
+
+.otp-body {
+
+    padding: 25px 30px 30px;
+}
+
+.otp-input {
+
+    height: 50px;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    letter-spacing: 6px;
+}
+
+.back-login {
+
+    text-align: center;
+
+    margin-top: 20px;
+}
+
+.back-login a {
+
+    text-decoration: none;
+}

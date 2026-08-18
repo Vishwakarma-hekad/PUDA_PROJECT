@@ -1,0 +1,354 @@
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    /* Construction background */
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15, 23, 42, 0.62),
+            rgba(30, 41, 59, 0.55)
+        ),
+        url("/static/images/img.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* Main authentication container */
+.auth-container {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 15px;
+
+    position: relative;
+}
+
+
+/* Very light overlay */
+.auth-container::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 255, 255, 0.04),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(59, 130, 246, 0.04),
+            transparent 40%
+        );
+
+    pointer-events: none;
+}
+
+
+/* Authentication card */
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+
+    border: none;
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.30),
+        0 5px 15px rgba(0, 0, 0, 0.12);
+
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* Card top accent */
+.auth-card::before {
+    content: "";
+
+    display: block;
+
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #0ea5e9,
+            #2563eb
+        );
+}
+
+
+/* Authentication body */
+.auth-body {
+    padding: 32px;
+}
+
+
+/* Logo */
+.auth-logo {
+    width: 70px;
+    height: 70px;
+
+    object-fit: contain;
+
+    margin-bottom: 10px;
+}
+
+
+/* Title */
+.auth-title {
+    color: #111827;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+}
+
+
+/* Subtitle */
+.auth-subtitle {
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* Form labels */
+.auth-body .form-label {
+    color: #374151;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+/* Input */
+.form-control {
+    height: 46px;
+
+    border-radius: 8px;
+
+    border: 1px solid #d1d5db;
+
+    padding-left: 14px;
+
+    color: #111827;
+
+    background-color: #ffffff;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Input focus */
+.form-control:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+
+    outline: none;
+}
+
+
+/* Authentication button */
+.btn-auth {
+    height: 46px;
+
+    font-weight: 600;
+
+    border-radius: 8px;
+
+    border: none;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.btn-auth:hover {
+    color: #ffffff;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.32);
+}
+
+
+/* Links */
+.auth-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
+.auth-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+
+/* Footer */
+.auth-footer {
+    text-align: center;
+
+    margin-top: 20px;
+
+    font-size: 14px;
+
+    color: #6b7280;
+}
+
+
+/* Password eye */
+.password-toggle {
+    cursor: pointer;
+
+    color: #6b7280;
+
+    transition: color 0.2s ease;
+}
+
+
+.password-toggle:hover {
+    color: #2563eb;
+}
+
+
+/* OTP */
+.otp-input {
+    text-align: center;
+
+    font-size: 22px;
+
+    letter-spacing: 5px;
+
+    font-weight: 600;
+}
+
+
+/* Mobile */
+@media (max-width: 576px) {
+
+    .auth-container {
+        padding: 20px 12px;
+    }
+
+    .auth-body {
+        padding: 25px 20px;
+    }
+
+    .auth-card {
+        max-width: 100%;
+    }
+}
+
+/* =========================
+   OTP INPUT
+========================= */
+
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+
+.otp-box {
+    width: 52px;
+    height: 54px;
+
+    text-align: center;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    color: #111827;
+
+    background: #ffffff;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* Focus */
+
+.otp-box:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+
+    transform: translateY(-1px);
+}
+
+
+/* Mobile */
+
+@media (max-width: 576px) {
+
+    .otp-container {
+        gap: 6px;
+    }
+
+    .otp-box {
+        width: 44px;
+        height: 48px;
+        font-size: 20px;
+    }
+
+}
